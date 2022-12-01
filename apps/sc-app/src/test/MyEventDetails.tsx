@@ -18,27 +18,27 @@ export function MyEventDetails(props: MyEventDetailsProps): ReactElement {
 
     useEffect(() => {
         const events = [event];
-        console.log(`%c MyEventDetails sends for +++ ${ map(events, 'id') }`, `color: ${ color }`);
+        console.log(`%c MyEventDetails sends for +++ ${map(events, 'id')}`, `color: ${color}`);
         subscribeEvents(events, src);
 
         return () => {
-            console.log(`%c MyEventDetails sends for --- ${ map(events, 'id') }`, `color: ${ color }`);
-            unsubscribeEvents(events, src)
-        }
-    }, [event, src, subscribeEvents, unsubscribeEvents])
+            console.log(`%c MyEventDetails sends for --- ${map(events, 'id')}`, `color: ${color}`);
+            unsubscribeEvents(events, src);
+        };
+    }, [event, src, subscribeEvents, unsubscribeEvents]);
 
     return (
-        <div style={ { color } }>
-            <button onClick={ handleDone }> backTo list</button>
-            <h1>My Event Details </h1>
+        <div style={{ color, textAlign: 'left' }}>
+            <button onClick={handleDone}> backTo list</button>
+            <h1 style={{ margin: 0 }}>My Event Details </h1>
+            <hr />
             <div>
-                my event: { event.name }
-                <button
-                    data-testid={ `details-event-${ event.id }-bet` }
-                    onClick={ () => handleBet(event) }> bet on this one
+                my event: {event.name}
+                <button data-testid={`details-event-${event.id}-bet`} onClick={() => handleBet(event)}>
+                    {' '}
+                    bet on this one
                 </button>
             </div>
-
         </div>
     );
 }

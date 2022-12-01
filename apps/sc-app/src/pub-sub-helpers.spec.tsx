@@ -10,7 +10,7 @@ const state = (): PubSubState => ({
     '*:Event:3': { list: true },
 });
 
-describe('PubSub helpers', () => {
+describe.skip('PubSub helpers', () => {
     it('should omit all but 1 channel', () => {
         const eventIds = [1, 3, 4];
         const events = buildMockEvents([1, 3, 4]);
