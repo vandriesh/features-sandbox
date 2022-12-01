@@ -1,12 +1,15 @@
 import React, { ReactElement, useContext, useEffect } from 'react';
-import { PubSubContext, PubSubContextType } from '../pub-sub-ws';
 import map from 'lodash/map';
+import isEmpty from 'lodash/isEmpty';
+
+import { PubSubContext, PubSubContextType } from '../pub-sub-ws';
 import { MockBet } from './MockEvent';
+import { MyLeg } from './MyLeg';
 
 interface MyBetsProps {
     src: string;
     bets: MockBet[];
-    handleDelete: (id: number) => void
+    handleDelete: (id: number) => void;
 }
 
 export function MyBets(props: MyBetsProps): ReactElement {
@@ -16,31 +19,32 @@ export function MyBets(props: MyBetsProps): ReactElement {
 
     const { subscribeEvents, unsubscribeEvents } = useContext(PubSubContext) as PubSubContextType;
 
-    //
     useEffect(() => {
+        if (isEmpty(bets)) {
+            return;
+        }
         const events = map(bets, 'event');
-        console.log(`%c MyBets send for +++ ${ map(events, 'id') }`, `color: ${ color }`);
         subscribeEvents(events, src);
 
         return () => {
-            console.log(`%c MyBets send for --- ${ map(events, 'id') }`, `color: ${ color }`);
-            unsubscribeEvents(events, src)
-        }
-    }, [bets, src, color, subscribeEvents, unsubscribeEvents])
+            unsubscribeEvents(events, src);
+        };
+    }, [bets, src, color, subscribeEvents, unsubscribeEvents]);
 
+    if (isEmpty(bets)) {
+        return (
+            <div style={{ color, textAlign: 'left' }}>
+                <h1>MyBets (none so far). Do you feel lucky?</h1>
+            </div>
+        );
+    }
 
     return (
-        <div style={ { color } }>
-            <h1>MyBets ({ bets.length })</h1>
-            { map(bets, (bet: MockBet) => (
-                <div key={ bet.id }>
-                    <button
-                        data-testid={ `remove-bet-${ bet.id }` }
-                        onClick={ () => handleDelete(bet.id) }>x
-                    </button>
-                    bet: { bet.event.name }
-                </div>
-            )) }
+        <div style={{ color, textAlign: 'left' }}>
+            <h1 data-testid="betslip-heading">MyBets ({bets.length})</h1>
+            {map(bets, (bet: MockBet) => (
+                <MyLeg key={bet.id} bet={bet} handleDelete={() => handleDelete(bet.id)} />
+            ))}
         </div>
     );
 }
