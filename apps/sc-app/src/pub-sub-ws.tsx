@@ -16,10 +16,10 @@ export const PubSubContext = React.createContext<PubSubContextType | null>(null)
 
 export interface PubSubEntity {
     id: number;
-    markets?: {id: number}[]; // TODO
+    markets?: { id: number }[]; // TODO
 }
 
-export const buildEventChannel = (id: number): string => `*:Event:${ id }`;
+export const buildEventChannel = (id: number): string => `*:Event:${id}`;
 
 export const omitChannels = (state: PubSubState, channels: string[], src: string): PubSubState => {
     return reduce(
@@ -44,8 +44,7 @@ export const omitChannels = (state: PubSubState, channels: string[], src: string
     );
 };
 export const omitEvents = (state: PubSubState, ids: number[], src: string): PubSubState =>
-     omitChannels(state, map(ids, buildEventChannel), src)
-
+    omitChannels(state, map(ids, buildEventChannel), src);
 
 export interface PubSubContextType {
     subscriptions: PubSubState;
@@ -62,47 +61,54 @@ export function filterNewEvents(state: PubSubState, events: PubSubEntity[]): Pub
 }
 
 export function PubSubToWebSocketsProvider({
-                                               pubSubService,
-                                               ...props
-                                           }: PropsWithChildren<{pubSubService: PubSubService<PubSubEntity>}>): ReactElement {
+    pubSubService,
+    ...props
+}: PropsWithChildren<{ pubSubService: PubSubService<PubSubEntity> }>): ReactElement {
     const [subscriptions, setSubscriptions] = useState<PubSubState>({});
 
-    const subscribeEvents = useCallback((events: PubSubEntity[], src: string): void => {
+    const subscribeEvents = useCallback(
+        (events: PubSubEntity[], src: string): void => {
+            setSubscriptions((state) => {
+                const eventsToSubscribeTo = filterNewEvents(state, events);
+                const eventIds = map(eventsToSubscribeTo, 'id');
 
-        setSubscriptions((state) => {
-            const eventsToSubscribeTo = filterNewEvents(state, events);
-            const eventIds = map(eventsToSubscribeTo, 'id');
+                if (!isEmpty(eventIds)) {
+                    pubSubService.subscribeEvents(events);
+                }
 
-            if (!isEmpty(eventIds)) {
-                pubSubService.subscribeEvents(events);
-            }
+                const newStateAddon = reduce(
+                    map(events, 'id'),
+                    (acc: PubSubState, id) => {
+                        acc[buildEventChannel(id)] = { [src]: true };
+                        return acc;
+                    },
+                    {},
+                );
 
-            const newStateAddon = reduce(map(events, 'id'), (acc: PubSubState, id) => {
-                acc[buildEventChannel(id)] = { [src]: true }
-                return acc;
-            }, {});
+                return merge({}, state, newStateAddon);
+            });
+        },
+        [pubSubService],
+    );
 
-            return merge({}, state, newStateAddon)
-        })
-    },[pubSubService]);
+    const unsubscribeEvents = useCallback(
+        (events: PubSubEntity[], src: string): void => {
+            setSubscriptions((state) => {
+                const ids = map(events, 'id');
+                const whatIsLeft = omitEvents(state, ids, src);
+                const notListenedEvents = filterObsoleteEvents(whatIsLeft, events);
 
-    const unsubscribeEvents = useCallback((events: PubSubEntity[], src: string): void => {
+                if (!isEmpty(notListenedEvents)) {
+                    pubSubService.unsubscribeEvents(notListenedEvents);
+                }
 
-        setSubscriptions((state) => {
-            const ids = map(events, 'id');
-            const whatIsLeft = omitEvents(state, ids, src);
-            const notListenedEvents = filterObsoleteEvents(whatIsLeft, events);
-
-            if (!isEmpty(notListenedEvents)) {
-                pubSubService.unsubscribeEvents(notListenedEvents);
-            }
-
-            return whatIsLeft
-        });
-    },[pubSubService]);
+                return whatIsLeft;
+            });
+        },
+        [pubSubService],
+    );
 
     const value = { subscriptions, subscribeEvents, unsubscribeEvents };
 
-    return <PubSubContext.Provider value={ value } { ...props } />;
+    return <PubSubContext.Provider value={value} {...props} />;
 }
-

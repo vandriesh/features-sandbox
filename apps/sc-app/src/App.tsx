@@ -7,31 +7,33 @@ import { PubSubService } from './PubSubService';
 import { DisplaySubs } from './DisplaySubs';
 
 function App() {
-    const eventIds = [11, 22, 33]
-    const mockEvents = map(eventIds, (id: number) => ({ id, name: `Event ${ id }` }));
+    const eventIds = [11, 22, 33];
+    const mockEvents = map(eventIds, (id: number) => ({ id, name: `Event ${id}` }));
     const color = 'red';
 
-    const pubSubService : PubSubService<PubSubEntity> = {
-        subscribeEvents(events: PubSubEntity[]){
-            console.info(`%c      SUB   +++ `, `color: ${color}`, map(events, 'id'));
+    const pubSubService: PubSubService<PubSubEntity> = {
+        subscribeEvents(events: PubSubEntity[]) {
+            // console.info(`%c      SUB   +++ `, `color: ${color}`, map(events, 'id'));
         },
         unsubscribeEvents(events: PubSubEntity[]) {
-            console.info(`%c      UNSUB --- `, `color: ${color}`, map(events, 'id'));
-        }
-    }
+            // console.info(`%c      UNSUB --- `, `color: ${color}`, map(events, 'id'));
+        },
+    };
 
     return (
         <PubSubToWebSocketsProvider pubSubService={pubSubService}>
             <table width="100%">
                 <tbody>
-                <tr>
-                    <td><MockContent fooParam={ mockEvents }/></td>
-                    <td><DisplaySubs /></td>
-                </tr>
+                    <tr>
+                        <td>
+                            <MockContent fooParam={mockEvents} />
+                        </td>
+                        <td>
+                            <DisplaySubs />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-
-
         </PubSubToWebSocketsProvider>
     );
 }
