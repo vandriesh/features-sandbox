@@ -5,6 +5,7 @@ import { MockContent } from './test/MockPubSubApp';
 import { PubSubEntity, PubSubToWebSocketsProvider } from './pub-sub-ws';
 import { PubSubService } from './PubSubService';
 import { DisplaySubs } from './DisplaySubs';
+import { AvailableFreebetsDevMonitor } from './feature-freebets/AvailableFreebetsDevMonitor';
 import { Freebet, FreebetsProvider } from './feature-freebets/useFreebets';
 
 function App() {
@@ -58,6 +59,8 @@ function App() {
                             </td>
                             <td>
                                 <DisplaySubs />
+                                <hr />
+                                <AvailableFreebetsDevMonitor />
                             </td>
                         </tr>
                     </tbody>
