@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { FreeBetContainer } from '../feature-freebets/FreeBetContainer';
+
 import { MockBet } from './MockEvent';
 
 interface OwnProps {
@@ -12,6 +14,7 @@ export function MyLeg(props: OwnProps): ReactElement {
 
     return (
         <div style={{ textAlign: 'left', display: 'flex' }} data-testid={`bet-${bet.id}`}>
+            <FreeBetContainer />
             <div>
                 bet: {bet.event.name}
                 <input type="text" name={`bet-${bet.id}-stake`} />
