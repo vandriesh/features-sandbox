@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { MockBet } from './MockEvent';
-
+//import * as FreebetUI from '../feature-freebets';
 interface OwnProps {
     bet: MockBet;
     handleDelete: () => void;
@@ -20,6 +20,9 @@ export function MyLeg(props: OwnProps): ReactElement {
                     style={{ width: '50px' }}
                     readOnly
                 />
+{/*
+                <FreebetUI.Stake value="1000" />
+*/}
             </div>
             <button data-testid={`remove-bet-${bet.id}`} onClick={props.handleDelete}>
                 x
