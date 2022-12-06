@@ -53,7 +53,7 @@ function App() {
             <PubSubToWebSocketsProvider pubSubService={pubSubService}>
                 <table width="100%">
                     <tbody>
-                        <tr>
+                        <tr style={{ verticalAlign: 'top' }}>
                             <td>
                                 <MockContent fooParam={mockEvents} />
                             </td>

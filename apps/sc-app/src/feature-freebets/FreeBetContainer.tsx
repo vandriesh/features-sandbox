@@ -69,7 +69,7 @@ export function FreeBetContainer(props: FreeBetProps): JSX.Element | null {
                 )}
                 {map(state.availableFreebets, (fbet) => (
                     <option key={fbet.id} value={fbet.id}>
-                        {fbet.amount}
+                        {fbet.amount} | {fbet.friendlyDescription}
                     </option>
                 ))}
             </FreebetUI.Dropdown>
