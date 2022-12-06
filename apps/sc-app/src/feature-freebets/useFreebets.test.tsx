@@ -6,7 +6,7 @@ import { fetch } from 'cross-fetch';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import { FreebetsProvider } from './useFreebets';
+import { Freebet, FreebetsProvider } from './useFreebets';
 import { MockContent } from '../test/MockPubSubApp';
 import map from 'lodash/map';
 import isNull from 'lodash/isNull';
@@ -42,7 +42,7 @@ const secondFreebet = {
         'You can use this Free Bet on any Football market with odds above 1.8. Only single bets are eligible.',
     expiryDate: '2024-10-10T00:00:00.000Z',
 };
-const bonusCreditsMock = [
+const bonusCreditsMock: Freebet[] = [
     firstFreebetMock,
     secondFreebet,
     {
@@ -199,71 +199,141 @@ const MockAppWithFreebets = ({ freeBets }: any) => {
     );
 };
 
+const scenarios = {
+    checkAllFreebetsAreDisplayed: (betIndex: number) => {
+        const firstFreebetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const freebetsElement = within(firstFreebetWrapper).getByRole('combobox');
+
+        expect(freebetsElement).toHaveTextContent(
+            map(bonusCreditsMock, ({ amount, friendlyDescription }) => `${amount} | ${friendlyDescription}`).join(''),
+        );
+    },
+    submitBetslip: async () => {
+        await userEvent.click(await screen.findByText(/I'm feeling lucky!/));
+    },
+    trySubmitBetslipAgain: async () => {
+        await userEvent.click(await screen.findByText(/again/i));
+    },
+    serverResponseIs: async (response: string) => {
+        expect(await screen.findByTestId('bet-response')).toHaveTextContent(response);
+    },
+    makeSureServerReceivedABet: async (amount: number) => {
+        expect(await screen.findByTestId('bet-response')).toHaveTextContent(`${amount} ${BET_RECEIVED}`);
+    },
+    makeSureServerDidNotReceivedFreebetsStake: async (amount: number) => {
+        expect(await screen.findByTestId('bet-response')).toHaveTextContent(
+            NO_FREEBETS_USED.replace('{amount}', `${amount}`),
+        );
+    },
+    insertSelection: async (eventId: string) => {
+        await userEvent.click(screen.getByTestId(`list-event-${eventId}-bet`));
+    },
+    toggleFreebet: async (betIndex: number) => {
+        const firstBetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const firstFreebetDOMElement = within(firstBetWrapper).getByRole('checkbox');
+
+        await userEvent.click(firstFreebetDOMElement);
+    },
+    stakeIsNotEditable: async (betIndex: number) => {
+        const firstBetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const stake = within(firstBetWrapper).getByRole('textbox');
+
+        await expect(stake).toHaveAttribute(`readonly`, '');
+    },
+    stakeIs: async (betIndex: number, amount: number) => {
+        const firstBetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const stake = within(firstBetWrapper).getByRole('textbox');
+
+        await expect(stake).toHaveValue(`${amount || ''}`);
+    },
+    stakeIsEmpty: async (betIndex: number) => {
+        const firstBetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const stake = within(firstBetWrapper).getByRole('textbox');
+
+        await expect(stake).toHaveValue(``);
+    },
+    enterStake: async (betIndex: number, amout: number) => {
+        const firstBetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const stake = within(firstBetWrapper).getByRole('textbox');
+
+        await userEvent.type(stake, `${amout}`);
+    },
+    stakeIsEditable: async (betIndex: number) => {
+        const firstBetWrapper = screen.getByTestId(`bet-${betIndex}`);
+        const stake = within(firstBetWrapper).getByRole('textbox');
+
+        await expect(stake).not.toHaveAttribute(`readonly`);
+    },
+};
 describe('FreeBets', () => {
     it('should bet with freebets', async () => {
         render(<MockAppWithFreebets freeBets={bonusCreditsMock} />);
 
-        await userEvent.click(screen.getByTestId(`list-event-11-bet`));
-        await userEvent.click(screen.getByTestId(`list-event-22-bet`));
-        await userEvent.click(screen.getByTestId(`list-event-33-bet`));
+        await scenarios.insertSelection('11');
+        await scenarios.insertSelection('22');
+        await scenarios.insertSelection('33');
 
         expect(screen.getByTestId('betslip-heading')).toHaveTextContent('MyBets (3)');
 
         const elements = screen.queryAllByText(/freebet \$/i);
         expect(elements.length).toBe(3);
-        const firstBetWrapper = screen.getByTestId(`bet-0`);
-        let stake = within(firstBetWrapper).getByRole('textbox');
-        await userEvent.type(stake, `1000`);
-        await userEvent.click(await screen.findByText(/I'm feeling lucky!/));
-        await waitFor(() => screen.findByTestId('bet-response'));
-        expect(await screen.findByTestId('bet-response')).toHaveTextContent(
-            NO_FREEBETS_USED.replace('{amount}', '1000'),
-        );
 
-        await userEvent.click(await screen.findByText(/again/i));
-        const [firstFreebet] = elements;
-        await userEvent.click(firstFreebet);
-        await userEvent.click(await screen.findByText(/I'm feeling lucky!/));
-        expect(await screen.findByTestId('bet-response')).toHaveTextContent(
-            `${firstFreebetMock.amount} ${BET_RECEIVED}`,
-        );
+        await scenarios.enterStake(0, 1000);
+        await scenarios.submitBetslip();
+        await scenarios.makeSureServerDidNotReceivedFreebetsStake(1000);
+
+        await scenarios.trySubmitBetslipAgain();
+        await scenarios.toggleFreebet(0);
+        await scenarios.submitBetslip();
+        await scenarios.makeSureServerReceivedABet(firstFreebetMock.amount);
     });
 
     it.todo('AC#1 Customer has one valid freebet token');
     it.todo('AC#2 Customer has a non-eligible freebet token');
-    it.todo('AC#3 Customer has more valid freebet tokens');
+    it('AC#3 Customer has more valid freebet tokens', async () => {
+        // Given I am a customer
+        // And I have logged into BetEast Sportsbook
+        render(<MockAppWithFreebets freeBets={bonusCreditsMock} />);
+        // And I have available Freebet Tokens
+        // And I insert a selection in betslip
+        await userEvent.click(screen.getByTestId('list-event-11-bet'));
+        // And the selection is eligible for all available freebet token’s eligibility conditions
+        // And I investigate the betslip
+        // When I click on down arrow next to the Freebet Token Label
+        // Then all available freebets are displayedAnd all amounts are visible
+        await scenarios.checkAllFreebetsAreDisplayed(0);
+        // And friendly description is show for each individual Freebet Token
+    });
 
     it('AC#4 Customer selects freebet token as stake', async () => {
+        const betIndex = 0;
         render(<MockAppWithFreebets freeBets={bonusCreditsMock} />);
-
-        await userEvent.click(screen.getByTestId(`list-event-11-bet`));
-
-        const firstBetWrapper = screen.getByTestId('bet-0');
-        let stake = within(firstBetWrapper).getByRole('textbox');
-        await userEvent.type(stake, '1000');
-
-        await expect(stake).not.toHaveAttribute(`readonly`);
-        await expect(stake).toHaveAttribute(`name`, 'bet-0-stake');
-        expect(stake).toHaveValue(`1000`);
-
-        const elements = screen.queryAllByText(/freebet \$/i);
-        const [firstFreebetDOMElement] = elements;
-        await userEvent.click(firstFreebetDOMElement);
-
-        stake = within(firstBetWrapper).getByRole('textbox');
-        await expect(stake).toHaveAttribute(`readonly`, '');
-        await expect(stake).toHaveValue(`${firstFreebetMock.amount}`);
-        await userEvent.click(await screen.findByText(/I'm feeling lucky!/));
-        expect(await screen.findByTestId('bet-response')).toHaveTextContent(
-            `${firstFreebetMock.amount} ${BET_RECEIVED}`,
-        );
+        await scenarios.insertSelection('11');
+        await scenarios.stakeIsEditable(betIndex);
+        await scenarios.stakeIsEmpty(betIndex);
+        await scenarios.toggleFreebet(betIndex);
+        await scenarios.stakeIs(betIndex, firstFreebetMock.amount);
+        await scenarios.stakeIsNotEditable(betIndex);
+        await scenarios.submitBetslip();
+        await scenarios.makeSureServerReceivedABet(firstFreebetMock.amount);
     });
 
     it.todo('AC#5 Stake Field not editable after inserting Freebet Token as stake');
-    it.todo('AC#6 Un-ticking the freebet token checkbox will remove the freebet token amount from stake field');
+    it('AC#6 Un-ticking the freebet token checkbox will remove the freebet token amount from stake field', async () => {
+        render(<MockAppWithFreebets freeBets={bonusCreditsMock} />);
+        const betIndex = 0;
+        await scenarios.insertSelection('11');
+        await scenarios.toggleFreebet(betIndex);
+        await scenarios.stakeIsNotEditable(betIndex);
+        await scenarios.stakeIs(betIndex, firstFreebetMock.amount);
+        await scenarios.toggleFreebet(betIndex);
+        await scenarios.stakeIsEditable(betIndex);
+    });
+
     it.todo('AC#7 Freebet Token is automatically ticked when selected from the dropdown list');
     it.todo(
-        'AC#8 Selecting a freebet token for a selection that already has an amount in stake field, will automatically overwrite the cash stake',
+        'AC#8 Selecting a freebet token for a selection that already has an amount in stake field' +
+            ', will automatically overwrite the cash stake',
     );
     it.todo('AC#9 Stake Buttons are hidden if all selections have freebet as stake');
 });
