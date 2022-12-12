@@ -1,4 +1,10 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+import isUndefined from 'lodash/isUndefined';
+import { isNull } from 'lodash';
+
+import * as FreebetUI from '../feature-freebets';
+import { Freebet, useFreebets } from '../feature-freebets/useFreebets';
+import { FreeBetContainer } from '../feature-freebets/FreeBetContainer';
 
 import { MockBet } from './MockEvent';
 
@@ -9,13 +15,41 @@ interface OwnProps {
 
 export function MyLeg(props: OwnProps): ReactElement {
     const { bet, handleDelete } = props;
+    const { state, getFreebet } = useFreebets();
+    const [freebet, setFreebet] = useState<Freebet | null>(null);
+
+    useEffect(() => {
+        const selectedFreebet = getFreebet(`${bet.id}`);
+
+        if (isUndefined(selectedFreebet)) {
+            setFreebet(null);
+            return;
+        }
+
+        setFreebet(selectedFreebet);
+    }, [bet.id, state.timestamp]);
 
     return (
         <div style={{ textAlign: 'left', display: 'flex' }} data-testid={`bet-${bet.id}`}>
-            <div>
-                bet: {bet.event.name}
-                <input type="text" name={`bet-${bet.id}-stake`} />
-            </div>
+            <FreeBetContainer linkedEntityId={`${bet.id}`} />
+            bet: {bet.event.name}
+            {isNull(freebet) ? (
+                <input
+                    placeholder="stake"
+                    key={`input-${bet.id}`}
+                    type="text"
+                    name={`bet-${bet.id}-stake`}
+                    defaultValue=""
+                    style={{ width: '50px' }}
+                />
+            ) : (
+                <FreebetUI.Stake
+                    key={`input-${bet.id}-ro`}
+                    name={`bet-${bet.id}-stake`}
+                    value={`${freebet.amount}`}
+                    readOnly
+                />
+            )}
             <button data-testid={`remove-bet-${bet.id}`} onClick={handleDelete}>
                 x
             </button>
