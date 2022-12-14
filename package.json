@@ -9,13 +9,14 @@
   },
   "private": true,
   "devDependencies": {
-    "@emotion/babel-plugin": "11.10.5",
-    "@nrwl/cypress": "15.3.0",
-    "@nrwl/eslint-plugin-nx": "15.3.0",
-    "@nrwl/linter": "15.3.0",
-    "@nrwl/react": "15.3.0",
-    "@nrwl/vite": "15.3.0",
-    "@nrwl/workspace": "15.3.0",
+    "@babel/preset-react": "^7.14.5",
+    "@nrwl/cypress": "15.3.3",
+    "@nrwl/eslint-plugin-nx": "15.3.3",
+    "@nrwl/linter": "15.3.3",
+    "@nrwl/react": "15.3.3",
+    "@nrwl/vite": "15.3.3",
+    "@nrwl/webpack": "^15.3.3",
+    "@nrwl/workspace": "15.3.3",
     "@testing-library/react": "13.4.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
@@ -35,20 +36,23 @@
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
     "jsdom": "~20.0.3",
-    "nx": "15.3.0",
+    "nx": "15.3.3",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "typescript": "~4.8.2",
     "vite": "^3.0.5",
     "vite-plugin-eslint": "^1.6.0",
-    "vite-tsconfig-paths": "^3.5.2",
+    "vite-tsconfig-paths": "^4.0.1",
     "vitest": "^0.25.1"
   },
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "core-js": "^3.6.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.4.3"
+    "react-router-dom": "6.4.3",
+    "regenerator-runtime": "0.13.7",
+    "tslib": "^2.3.0"
   }
 }

@@ -10,4 +10,13 @@ module.exports = {
     trailingComma: 'all',
     bracketSpacing: true,
     arrowParens: 'always',
+    overrides: [
+        {
+            files: '*.json',
+            options: {
+                parser: 'json',
+            },
+            tabWidth: 2,
+        },
+    ],
 };
