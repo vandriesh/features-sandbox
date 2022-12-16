@@ -3,8 +3,8 @@ import isUndefined from 'lodash/isUndefined';
 import { isNull } from 'lodash';
 
 import * as FreebetUI from '../feature-freebets';
-import { Freebet, useFreebets } from '../feature-freebets/useFreebets';
-import { FreeBetContainer } from '../feature-freebets/FreeBetContainer';
+import { Freebet, useFreebets } from '@features/feature-freebets';
+import { FreeBetContainer } from '@features/feature-freebets';
 
 import { MockBet } from './MockEvent';
 
@@ -31,7 +31,7 @@ export function MyLeg(props: OwnProps): ReactElement {
 
     return (
         <div style={{ textAlign: 'left', display: 'flex' }} data-testid={`bet-${bet.id}`}>
-            <FreeBetContainer linkedEntityId={`${bet.id}`} />
+            <FreeBetContainer linkedEntityId={`${bet.id}`} UI={FreebetUI} />
             bet: {bet.event.name}
             {isNull(freebet) ? (
                 <input

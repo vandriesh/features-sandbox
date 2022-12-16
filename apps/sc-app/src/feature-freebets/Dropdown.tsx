@@ -1,9 +1,5 @@
-import { ChangeEvent, PropsWithChildren } from 'react';
+import { DropdownComponent } from '@features/feature-freebets';
 
-interface OwnProps extends Partial<Pick<HTMLSelectElement, 'value' | 'name'>> {
-    onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
-}
-
-export function Dropdown({ children, ...props }: PropsWithChildren<OwnProps>): JSX.Element {
+export const Dropdown: DropdownComponent = ({ children, ...props }) => {
     return <select {...props}>{children}</select>;
-}
+};

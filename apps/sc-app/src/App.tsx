@@ -5,8 +5,8 @@ import { MockContent } from './test/MockPubSubApp';
 import { PubSubEntity, PubSubToWebSocketsProvider } from './pub-sub-ws';
 import { PubSubService } from './PubSubService';
 import { DisplaySubs } from './DisplaySubs';
-import { AvailableFreebetsDevMonitor } from './feature-freebets/AvailableFreebetsDevMonitor';
-import { Freebet, FreebetsProvider } from './feature-freebets/useFreebets';
+import { AvailableFreebetsDevMonitor } from '@features/feature-freebets';
+import { Freebet, FreebetsProvider } from '@features/feature-freebets';
 
 function App() {
     const bonusCreditsMock: Freebet[] = [

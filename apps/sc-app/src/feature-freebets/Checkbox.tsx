@@ -1,14 +1,10 @@
-import { ChangeEvent, PropsWithChildren } from 'react';
+import { CheckboxComponent } from '@features/feature-freebets';
 
-interface OwnProps extends Partial<Pick<HTMLInputElement, 'value' | 'name' | 'defaultChecked'>> {
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-export function Checkbox({ children, ...props }: PropsWithChildren<OwnProps>): JSX.Element {
+export const Checkbox : CheckboxComponent = ({ children, ...props }) => {
     return (
         <label>
-            <input type="checkbox" {...props} />
-            {children}
+            <input type="checkbox" { ...props } />
+            { children }
         </label>
     );
 }
