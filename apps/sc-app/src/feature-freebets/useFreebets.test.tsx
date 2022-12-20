@@ -263,7 +263,7 @@ const scenarios = {
         await expect(stake).not.toHaveAttribute(`readonly`);
     },
 };
-describe.skip('FreeBets', () => {
+describe('FreeBets', () => {
     it('should bet with freebets', async () => {
         render(<MockAppWithFreebets freeBets={bonusCreditsMock} />);
 

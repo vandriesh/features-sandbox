@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import { isNull } from 'lodash';
 
-import * as FreebetUI from '../feature-freebets';
+import * as FreebetUI from '@features/ui-legacy';
 import { Freebet, useFreebets } from '@features/feature-freebets';
 import { FreeBetContainer } from '@features/feature-freebets';
 
