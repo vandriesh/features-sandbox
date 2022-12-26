@@ -1,0 +1,28 @@
+{
+    "name": "ui-ascii",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/ui-ascii/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/ui-ascii/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/vite:test",
+            "outputs": ["{projectRoot}/coverage"],
+            "options": {
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "watch" : {
+                    "watch" : true
+                }
+            }
+        }
+    }
+}
