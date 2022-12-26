@@ -51,7 +51,6 @@ describe.skip('PubSub helpers', () => {
         const allEvents = buildMockEvents(eventIds);
         const eventsToUnsubscribe = filterObsoleteEvents(whatIsLeft, allEvents);
 
-
         expect(eventsToUnsubscribe).toEqual(allEvents);
     });
 });

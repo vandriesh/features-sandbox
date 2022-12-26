@@ -13,7 +13,7 @@ export function DisplaySubs(): ReactElement {
     return (
         <div style={{ backgroundColor: 'lightgray', textAlign: 'left' }}>
             <h3 style={{ margin: 0 }}>Subscribe Monitor</h3>
-            <hr/>
+            <hr />
             ids: #refs (total:<span data-testid="events-count">{ids.length}</span>):
             {map(ids, (id: string) => (
                 <article key={id} data-testid={id}>

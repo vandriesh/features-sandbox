@@ -1,0 +1,59 @@
+{
+    "name": "sc-app-legacy",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/sc-app-legacy/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/vite:build",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "outputPath": "dist/apps/sc-app-legacy"
+            },
+            "configurations": {
+                "development": {},
+                "production": {}
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/vite:dev-server",
+            "defaultConfiguration": "development",
+            "options": {
+                "port": 4001,
+                "buildTarget": "sc-app-legacy:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "sc-app-legacy:build:development",
+                    "hmr": true
+                },
+                "production": {
+                    "buildTarget": "sc-app-legacy:build:production",
+                    "hmr": false
+                }
+            }
+        },
+        "test": {
+            "executor": "@nrwl/vite:test",
+            "outputs": ["{projectRoot}/coverage"],
+            "options": {
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "watch": {
+                    "watch": true,
+                    "passWithNoTests": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/sc-app-legacy/**/*.{ts,tsx,js,jsx}"]
+            }
+        }
+    },
+    "tags": []
+}

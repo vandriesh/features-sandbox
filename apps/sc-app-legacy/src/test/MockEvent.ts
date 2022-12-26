@@ -5,5 +5,5 @@ export interface MockEvent {
 
 export interface MockBet {
     id: number;
-    event: MockEvent
+    event: MockEvent;
 }

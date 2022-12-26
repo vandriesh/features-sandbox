@@ -21,7 +21,6 @@ import get from 'lodash/get';
 import { PubSubService } from '../PubSubService';
 import { PubSubEntity, PubSubToWebSocketsProvider } from '../pub-sub-ws';
 
-
 const CASINO_URL = 'http://myownthemeparkwithblackjack/bet';
 
 const firstFreebetMock = {
