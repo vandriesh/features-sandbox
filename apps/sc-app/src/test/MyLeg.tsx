@@ -3,6 +3,7 @@ import isUndefined from 'lodash/isUndefined';
 import { isNull } from 'lodash';
 
 import * as FreebetUI from '@features/ui-legacy';
+
 import { Freebet, useFreebets } from '@features/feature-freebets';
 import { FreeBetContainer } from '@features/feature-freebets';
 

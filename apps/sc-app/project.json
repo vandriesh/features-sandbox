@@ -20,6 +20,7 @@
       "executor": "@nrwl/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
+        "port": 4001,
         "buildTarget": "sc-app:build"
       },
       "configurations": {

@@ -1,9 +1,11 @@
 import React, { ReactElement, useState } from 'react';
-import { MockBet, MockEvent } from './MockEvent';
 import reject from 'lodash/reject';
+
+import { MockBet, MockEvent } from './MockEvent';
 import { MyEvents } from './MyEvents';
-import { MyBets } from './MyBets';
 import { MyEventDetails } from './MyEventDetails';
+
+import { MyBets } from './MyBets';
 
 export function MockContent({ fooParam }: { fooParam: MockEvent[] }): ReactElement {
     const [events] = useState<MockEvent[]>(fooParam);

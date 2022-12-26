@@ -1,13 +1,14 @@
 import React from 'react';
 import map from 'lodash/map';
 
+import { AvailableFreebetsDevMonitor } from '@features/feature-freebets';
+import { Freebet, FreebetsProvider } from '@features/feature-freebets';
+
 import '@sc-app-legacy/App.css';
 import { MockContent } from './MockPubSubApp';
 import { PubSubEntity, PubSubToWebSocketsProvider } from '@sc-app-legacy/pub-sub-ws';
 import { PubSubService } from '@sc-app-legacy/PubSubService';
 import { DisplaySubs } from '@sc-app-legacy/DisplaySubs';
-import { AvailableFreebetsDevMonitor } from '@features/feature-freebets';
-import { Freebet, FreebetsProvider } from '@features/feature-freebets';
 
 function App() {
     const bonusCreditsMock: Freebet[] = [
@@ -52,6 +53,7 @@ function App() {
     return (
         <FreebetsProvider freebets={bonusCreditsMock}>
             <PubSubToWebSocketsProvider pubSubService={pubSubService}>
+                <h2>Welcome to NEXT app!</h2>
                 <table width="100%">
                     <tbody>
                         <tr>
