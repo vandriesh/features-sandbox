@@ -1,12 +1,14 @@
 import React from 'react';
-import './App.css';
 import map from 'lodash/map';
+
+import { AvailableFreebetsDevMonitor } from '@features/feature-freebets';
+import { Freebet, FreebetsProvider } from '@features/feature-freebets';
+
+import './App.css';
 import { MockContent } from './test/MockPubSubApp';
 import { PubSubEntity, PubSubToWebSocketsProvider } from './pub-sub-ws';
 import { PubSubService } from './PubSubService';
 import { DisplaySubs } from './DisplaySubs';
-import { AvailableFreebetsDevMonitor } from '@features/feature-freebets';
-import { Freebet, FreebetsProvider } from '@features/feature-freebets';
 
 function App() {
     const bonusCreditsMock: Freebet[] = [

@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from 'react';
-import { MockBet, MockEvent } from '@sc-app-legacy/test/MockEvent';
 import reject from 'lodash/reject';
+
+import { MockBet, MockEvent } from '@sc-app-legacy/test/MockEvent';
 import { MyEvents } from '@sc-app-legacy/test/MyEvents';
 import { MyEventDetails } from '@sc-app-legacy/test/MyEventDetails';
 

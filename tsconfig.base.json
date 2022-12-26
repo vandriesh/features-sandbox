@@ -15,9 +15,10 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@sc-app-legacy/*": ["apps/sc-app/src/*"],
             "@features/feature-freebets": ["libs/feature-freebets/src/index.ts"],
-            "@features/ui-legacy": ["libs/ui-legacy/src/index.ts"]
+            "@features/ui-ascii": ["libs/ui-ascii/src/index.ts"],
+            "@features/ui-legacy": ["libs/ui-legacy/src/index.ts"],
+            "@sc-app-legacy/*": ["apps/sc-app/src/*"]
         }
     },
     "exclude": ["node_modules", "tmp"]
