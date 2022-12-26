@@ -2,9 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import { isNull } from 'lodash';
 
-import { Dropdown } from '@features/ui-legacy';
-import { Checkbox,Stake } from '@features/ui-ascii';
-const FreebetUI = { Dropdown, Stake, Checkbox }
+import * as FreebetUI from '@features/ui-ascii';
 
 import { Freebet, useFreebets } from '@features/feature-freebets';
 import { FreeBetContainer } from '@features/feature-freebets';
