@@ -19,9 +19,46 @@
                 "passWithNoTests": true
             },
             "configurations": {
-                "watch" : {
-                    "watch" : true
+                "watch": {
+                    "watch": true
                 }
+            }
+        },
+        "storybook": {
+            "executor": "@nrwl/storybook:storybook",
+            "options": {
+                "uiFramework": "@storybook/react",
+                "port": 4400,
+                "config": {
+                    "configFolder": "libs/ui-ascii/.storybook"
+                }
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "build-storybook": {
+            "executor": "@nrwl/storybook:build",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "uiFramework": "@storybook/react",
+                "outputPath": "dist/storybook/ui-ascii",
+                "config": {
+                    "configFolder": "libs/ui-ascii/.storybook"
+                }
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "test-storybook": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "test-storybook -c libs/ui-ascii/.storybook --url=http://localhost:4400"
             }
         }
     }
