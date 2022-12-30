@@ -9,7 +9,7 @@
     "storybook1": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006 -c libs/ui-ascii/.storybook",
     "build-storybook": "storybook build -c libs/ui-ascii/.storybook",
-    "chromatic": "npx chromatic --project-token=65a5dd813a82"
+    "chromatic": "npx chromatic"
   },
   "private": true,
   "devDependencies": {
