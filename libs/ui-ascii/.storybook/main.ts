@@ -1,8 +1,8 @@
-const rootMain = require('../../../.storybook/main');
-
+//const rootMain = require('../../../.storybook/main');
+import { rootMain } from '../../../.storybook/main';
 module.exports = {
     ...rootMain,
-    core: { ...rootMain.core, builder: '@storybook/builder-vite' },
+    core: { ...rootMain.core!, builder: '@storybook/builder-vite' },
     stories: [...rootMain.stories, '../src/lib/**/*.stories.mdx', '../src/lib/**/*.stories.tsx'],
-    addons: [...rootMain.addons, '@nrwl/react/plugins/storybook'],
+    addons: [...rootMain.addons!, '@nrwl/react/plugins/storybook'],
 };

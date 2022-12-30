@@ -1,4 +1,6 @@
-export const rootMain = {
+import { StorybookConfig } from '@storybook/react-vite';
+
+export const rootMain: StorybookConfig = {
     stories: [
         //   "../stories/**/*.stories.mdx",
         //   "../stories/!**/!*.stories.@(js|jsx|ts|tsx)"
@@ -19,6 +21,12 @@ export const rootMain = {
     features: {
         storyStoreV7: true,
     },
+    framework: {
+        name: '@storybook/react-vite',
+        options: {},
+    },
+    docs: {
+        autodocs: true,
+    },
 };
-
-module.exports = rootMain;
+//module.exports = rootMain;

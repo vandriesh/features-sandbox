@@ -8,14 +8,14 @@ export const Checkbox: CheckboxComponent = ({ children, onChange = () => {}, def
 
     if (defaultChecked) {
         return (
-            <span {...props} onClick={() => toggle(false)}>
+            <span {...props} onClick={() => toggle(false)} style={{color: 'white'}}>
                 [x] {children}
             </span>
         );
     }
 
     return (
-        <span {...props} onClick={() => toggle(true)}>
+        <span {...props} onClick={() => toggle(true)} style={{color: 'white'}}>
             [ ] {children}
         </span>
     );
