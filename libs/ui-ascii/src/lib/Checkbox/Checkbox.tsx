@@ -1,5 +1,6 @@
 import { CheckboxComponent } from '@features/feature-freebets';
 import { ChangeEvent } from 'react';
+import { S_Span } from './styled';
 
 export const Checkbox: CheckboxComponent = ({ children, onChange = () => {}, defaultChecked, ...props }) => {
     const toggle = (checked: boolean) => {
@@ -8,15 +9,15 @@ export const Checkbox: CheckboxComponent = ({ children, onChange = () => {}, def
 
     if (defaultChecked) {
         return (
-            <span {...props} onClick={() => toggle(false)} style={{color: 'white'}}>
+            <S_Span {...props} onClick={() => toggle(false)}>
                 [x] {children}
-            </span>
+            </S_Span>
         );
     }
 
     return (
-        <span {...props} onClick={() => toggle(true)} style={{color: 'white'}}>
+        <S_Span {...props} onClick={() => toggle(true)}>
             [ ] {children}
-        </span>
+        </S_Span>
     );
 };
