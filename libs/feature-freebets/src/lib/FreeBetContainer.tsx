@@ -11,7 +11,7 @@ interface CheckboxProps extends Partial<Pick<HTMLInputElement, 'value' | 'name' 
 
 interface DropdownProps extends Partial<Pick<HTMLSelectElement, 'value' | 'name'>> {
     defaultValue?: Freebet;
-    items: Freebet[]
+    items: Freebet[];
     onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -75,7 +75,7 @@ export function FreeBetContainer(props: FreeBetProps): JSX.Element | null {
                 name={`freebet-for-${linkedEntityId}`}
                 value={`${freebet?.id}`}
             >
-                Freebet $
+                Freebet
             </UI.Checkbox>
             <UI.Dropdown onChange={selectFreebet} defaultValue={selectedFreebet} items={state.availableFreebets} />
         </div>

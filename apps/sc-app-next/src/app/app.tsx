@@ -56,13 +56,13 @@ function App() {
                 <h2>Welcome to NEXT app!</h2>
                 <table width="100%">
                     <tbody>
-                        <tr>
-                            <td>
+                        <tr style={{verticalAlign:"top"}}>
+                            <td width="300">
                                 <DisplaySubs />
                                 <hr />
                                 <AvailableFreebetsDevMonitor />
                             </td>
-                            <td>
+                            <td width="*">
                                 <MockContent fooParam={mockEvents} />
                             </td>
                         </tr>
