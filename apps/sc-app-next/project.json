@@ -1,60 +1,56 @@
 {
-  "name": "sc-app-next",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/sc-app-next/src",
-  "projectType": "application",
-  "targets": {
-    "build": {
-      "executor": "@nrwl/vite:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/apps/sc-app-next"
-      },
-      "configurations": {
-        "development": {},
-        "production": {}
-      }
-    },
-    "serve": {
-      "executor": "@nrwl/vite:dev-server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "sc-app-next:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "sc-app-next:build:development",
-          "hmr": true
+    "name": "sc-app-next",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/sc-app-next/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/vite:build",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "outputPath": "dist/apps/sc-app-next"
+            },
+            "configurations": {
+                "development": {
+                    "mode": "development"
+                },
+                "production": {
+                    "mode": "production"
+                }
+            }
         },
-        "production": {
-          "buildTarget": "sc-app-next:build:production",
-          "hmr": false
+        "serve": {
+            "executor": "@nrwl/vite:dev-server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "sc-app-next:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "sc-app-next:build:development",
+                    "hmr": true
+                },
+                "production": {
+                    "buildTarget": "sc-app-next:build:production",
+                    "hmr": false
+                }
+            }
+        },
+        "test": {
+            "executor": "@nrwl/vite:test",
+            "outputs": ["{projectRoot}/coverage"],
+            "options": {
+                "passWithNoTests": true
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/sc-app-next/**/*.{ts,tsx,js,jsx}"]
+            }
         }
-      }
     },
-    "test": {
-      "executor": "@nrwl/vite:test",
-      "outputs": [
-        "{projectRoot}/coverage"
-      ],
-      "options": {
-        "passWithNoTests": true
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "apps/sc-app-next/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
-    }
-  },
-  "tags": []
+    "tags": []
 }

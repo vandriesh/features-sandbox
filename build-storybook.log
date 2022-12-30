@@ -1,0 +1,24 @@
+info @storybook/react v6.5.15
+info 
+info => Cleaning outputDir: /var/folders/88/8npn_6cj3p517tb57vpt8_bm0000gn/T/chromatic--17027-e00bpSs9b9ZJ
+info => Loading presets
+info => Loading custom manager config
+info => Compiling manager..
+info => Loading custom manager config
+/Users/vandries/workspaces/my-repos/features/node_modules/webpack/lib/javascript/JavascriptModulesPlugin.js:143
+			throw new TypeError(
+			^
+
+TypeError: The 'compilation' argument must be an instance of Compilation
+    at Function.getCompilationHooks (/Users/vandries/workspaces/my-repos/features/node_modules/webpack/lib/javascript/JavascriptModulesPlugin.js:143:10)
+    at /Users/vandries/workspaces/my-repos/features/node_modules/terser-webpack-plugin/dist/index.js:566:67
+    at SyncHook.eval (eval at create (/Users/vandries/workspaces/my-repos/features/node_modules/tapable/lib/HookCodeFactory.js:19:10), <anonymous>:85:1)
+    at SyncHook.lazyCompileHook (/Users/vandries/workspaces/my-repos/features/node_modules/tapable/lib/Hook.js:154:20)
+    at Compiler.newCompilation (/Users/vandries/workspaces/my-repos/features/node_modules/@storybook/manager-webpack4/node_modules/webpack/lib/Compiler.js:631:26)
+    at /Users/vandries/workspaces/my-repos/features/node_modules/@storybook/manager-webpack4/node_modules/webpack/lib/Compiler.js:667:29
+    at AsyncSeriesHook.eval [as callAsync] (eval at create (/Users/vandries/workspaces/my-repos/features/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:6:1)
+    at AsyncSeriesHook.lazyCompileHook (/Users/vandries/workspaces/my-repos/features/node_modules/tapable/lib/Hook.js:154:20)
+    at Compiler.compile (/Users/vandries/workspaces/my-repos/features/node_modules/@storybook/manager-webpack4/node_modules/webpack/lib/Compiler.js:662:28)
+    at /Users/vandries/workspaces/my-repos/features/node_modules/@storybook/manager-webpack4/node_modules/webpack/lib/Compiler.js:321:11
+
+Node.js v18.7.0
